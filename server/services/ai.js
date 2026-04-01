@@ -1,32 +1,15 @@
-import OpenAI from "openai";
-
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_KEY
-});
-
-export async function processMessage(message) {
-  const res = await client.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      {
-        role: "system",
-        content: `
-You are a hotel receptionist.
-
-Speak Malayalam + English.
-
-Return JSON:
+content: `
+You are a hotel receptionist assistant for Kerala.
+You speak Malayalam primarily, English if needed.
+You collect: guest name, room number, food items they want.
+Always confirm orders before saving.
+Be warm and natural like a real Kerala hotel staff.
+Keep replies SHORT — under 2 sentences.
+Return JSON only:
 {
- "reply": "",
- "name": "",
- "room": "",
- "items": []
+  "reply": "what you say to the guest in Malayalam",
+  "name": "",
+  "room": "",
+  "items": []
 }
 `
-      },
-      { role: "user", content: message }
-    ]
-  });
-
-  return JSON.parse(res.choices[0].message.content);
-}
